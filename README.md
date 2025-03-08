@@ -11,7 +11,7 @@ struct RandomOffsetTransition: Transition {
     @Random(distance: 20) var offset: CGSize
 
     func body(content: Content, phase: TransitionPhase) -> some View {
-        content.offset(offset)
+        content.offset(phase.isIdentity ? .zero : offset)
     }
 }
 ```
