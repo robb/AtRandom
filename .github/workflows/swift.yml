@@ -1,5 +1,7 @@
 name: Build Package for all Platforms
 
+name: Build Swift Package
+
 on:
   push:
     branches:
@@ -24,10 +26,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Install Swift 6
+      - name: Select Latest Xcode 16
         run: |
-          brew install swift
-          echo "$(brew --prefix swift)/bin" >> $GITHUB_PATH
+          sudo xcode-select -s /Applications/Xcode_16.app/Contents/Developer || \
+          sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+          xcodebuild -version
           swift --version
 
       - name: Build Swift Package
