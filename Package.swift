@@ -6,11 +6,11 @@ import PackageDescription
 let package = Package(
     name: "AtRandom",
     platforms: [
-        .iOS(.v16),
-        .macOS(.v13),
-        .macCatalyst(.v16),
-        .watchOS(.v9),
-        .tvOS(.v16),
+        .iOS(.v14),
+        .macOS(.v11),
+        .macCatalyst(.v14),
+        .watchOS(.v7),
+        .tvOS(.v14),
         .visionOS(.v1),
     ],
     products: [
