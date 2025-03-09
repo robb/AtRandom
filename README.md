@@ -22,7 +22,7 @@ will create a transition that animates the view from a random offset.
 
 By default, different instances of the same `View` or `ViewModifier` generate unique `@Random` values. To ensure consistency, you can provide a custom seed via the property wrapper’s `projectedValue`'s `seed` value.
 
-For example, assigning a model’s `hashValue` to `$greeting` ensures stability when the view gets recreated, say in a `LazyVStack`.
+For example, assigning a model’s `hashValue` to `$greeting.seed` ensures stability when the view gets recreated, say in a `LazyVStack`.
 
 ```swift
 struct Cell: View {
