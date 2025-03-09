@@ -27,6 +27,7 @@ jobs:
       - name: Install Swift 6
         run: |
           brew install swift
+          echo "$(brew --prefix swift)/bin" >> $GITHUB_PATH
           swift --version
 
       - name: Build Swift Package
