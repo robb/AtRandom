@@ -4,6 +4,34 @@ import SwiftUI
 /// invocations of ``View.body``.
 @propertyWrapper
 public struct Random<Value>: DynamicProperty {
+    /// A wrapper of the underlying random number generator that can override
+    /// the seed value used.
+    public struct Wrapper {
+        /// A value used by the property wrapper to generate the value.
+        ///
+        /// Assign a value derived from your model object to this property to
+        /// produce repetable random values across view instances.
+        ///
+        /// ```swift
+        /// struct Cell: View {
+        ///     @Random(in: "Hello", "Bonjour", "Willkommen") var greeting
+        ///
+        ///     var model: Model
+        ///
+        ///     init(model: Model) {
+        ///         self.model = model
+        ///         $greeting.seed = model.hashValue
+        ///     }
+        ///
+        ///     var body: some View {
+        ///       // The same `model` will get the same `greeting`, every time.
+        ///       Text("\(greeting), \(model.name)!")
+        ///     }
+        /// }
+        /// ```
+        public var seed: Int
+    }
+
     enum Source {
         case fixed(Int)
         case namespace
@@ -54,7 +82,7 @@ public struct Random<Value>: DynamicProperty {
     ///
     ///     init(model: Model) {
     ///         self.model = model
-    ///         $greeting = model.hashValue
+    ///         $greeting.seed = model.hashValue
     ///     }
     ///
     ///     var body: some View {
@@ -63,17 +91,17 @@ public struct Random<Value>: DynamicProperty {
     ///     }
     /// }
     /// ```
-    public var projectedValue: Int {
+    public var projectedValue: Wrapper {
         get {
             switch source {
             case .fixed(let int):
-                int
+                    .init(seed: int)
             case .namespace:
-                namespace.hashValue
+                    .init(seed: namespace.hashValue)
             }
         }
         set {
-            source = .fixed(newValue)
+            source = .fixed(newValue.seed)
         }
     }
 }
