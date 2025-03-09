@@ -1,7 +1,5 @@
 name: Build Package for all Platforms
 
-name: Build Swift Package
-
 on:
   push:
     branches:
