@@ -164,6 +164,22 @@ public extension Random where Value: Comparable & Strideable, Value.Stride: Sign
     }
 }
 
+public extension Random where Value: RangeReplaceableCollection, Value.Element: Comparable & Strideable, Value.Element.Stride: SignedInteger {
+    /// A property that generates a collection of random values by choosing
+    /// randomly from a range.
+    ///
+    /// - Parameters:
+    ///   - range: The range from which the values are selected.
+    ///   - count: The number of values to generate.
+    public init(in range: ClosedRange<Value.Element>, count: Int) {
+        self.init { rng in
+            Value((0 ..< count).map { _ in
+                range.randomElement(using: &rng) ?? range.lowerBound
+            })
+        }
+    }
+}
+
 public extension Random {
     /// A property that generates a random value by choosing randomly from a
     /// choice of options..
