@@ -7,7 +7,8 @@ public struct Random<Value>: DynamicProperty {
     /// A wrapper of the underlying random number generator that can override
     /// the seed value used.
     public struct Wrapper {
-        /// A value used by the property wrapper to generate the value.
+        /// A value used by the property wrapper to generate the value or `nil`
+        /// if a per-`View` value will be used.
         ///
         /// Assign a value derived from your model object to this property to
         /// produce repetable random values across view instances.
@@ -29,7 +30,9 @@ public struct Random<Value>: DynamicProperty {
         ///     }
         /// }
         /// ```
-        public var seed: Int
+        ///
+        /// Default is `nil`.
+        public var seed: Int?
     }
 
     enum Source {
@@ -97,11 +100,11 @@ public struct Random<Value>: DynamicProperty {
             case .fixed(let int):
                     .init(seed: int)
             case .namespace:
-                    .init(seed: namespace.hashValue)
+                    .init(seed: nil)
             }
         }
         set {
-            source = .fixed(newValue.seed)
+            source = newValue.seed.map(Source.fixed) ?? .namespace
         }
     }
 }
